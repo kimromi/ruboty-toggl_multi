@@ -16,14 +16,14 @@ module Ruboty
       )
 
       on(
-        /start task (?<task>\S+)(?<project_name>.*)/,
+        /^start (?<task>\S+)(?<project_name>.*)/,
         name: 'start',
         description: 'start toggl task',
         all: true
       )
 
       on(
-        /stop task/,
+        /^stop$/,
         name: 'stop',
         description: 'stop toggl task',
         all: true
