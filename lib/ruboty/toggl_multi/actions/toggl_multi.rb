@@ -64,7 +64,7 @@ module Ruboty
 
           if current = toggl.get_current_time_entry
             toggl.stop_time_entry(current['id'])
-            message.reply('task stopped')
+            message.reply('task stopped.')
           else
             message.reply('not running task.')
           end
