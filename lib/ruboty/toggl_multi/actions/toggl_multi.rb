@@ -52,7 +52,7 @@ module Ruboty
             pid: project ? project['id'] : nil
           }.stringify_keys)
 
-          message.reply("started #{task}!")
+          message.reply("started #{task}#{project ? ' in ' + project['name'] : ''}.")
         rescue => e
           message.reply("error! #{e}")
         end
