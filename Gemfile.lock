@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruboty-toggl_multi (0.1.0)
+    ruboty-toggl_multi (0.1.1)
       activesupport
       awesome_print
       ruboty
