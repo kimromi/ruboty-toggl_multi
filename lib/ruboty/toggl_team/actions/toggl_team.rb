@@ -42,12 +42,13 @@ module Ruboty
             message.reply("please set #{user}'s toggl token and workspace!") and return
           end
 
+          task = message.match_data[:task].strip
+
           project_name = message.match_data[:project_name].strip
-          project = if project_name != ''
-            toggl.projects(user_workspace['id'], active: true)&.find {|p| p['name'] =~ /#{project_name}/ }
+          project = toggl.projects(user_workspace['id'], active: true)&.find do |p|
+            p['name'] =~ /#{project_name != '' ? project_name : task}/
           end
 
-          task = message.match_data[:task].strip
           entry = toggl.start_time_entry({
             description: task,
             wid: user_workspace['id'],
