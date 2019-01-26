@@ -1,5 +1,5 @@
 module Ruboty
-  module TogglMulti
-    VERSION = "0.2.0"
+  module TogglTeam
+    VERSION = "0.1.0"
   end
 end
