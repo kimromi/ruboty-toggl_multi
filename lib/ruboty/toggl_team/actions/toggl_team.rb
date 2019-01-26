@@ -2,11 +2,11 @@ require 'togglv8'
 require 'active_support/core_ext/hash/keys'
 
 module Ruboty
-  module TogglMulti
+  module TogglTeam
     module Actions
-      class TogglMulti < Ruboty::Actions::Base
-        BRAIN_KEY_TOKENS = 'toggl_multi_tokens'.freeze
-        BRAIN_KEY_WORKSPACE = 'toggl_multi_workspace'.freeze
+      class TogglTeam < Ruboty::Actions::Base
+        BRAIN_KEY_TOKENS = 'toggl_team_tokens'.freeze
+        BRAIN_KEY_WORKSPACE = 'toggl_team_workspace'.freeze
 
         def set_token
           tokens = brain.data[BRAIN_KEY_TOKENS] || {}

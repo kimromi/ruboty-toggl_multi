@@ -1,17 +1,17 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "ruboty/toggl_multi/version"
+require "ruboty/toggl_team/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "ruboty-toggl_multi"
-  spec.version       = Ruboty::TogglMulti::VERSION
+  spec.name          = "ruboty-toggl_team"
+  spec.version       = Ruboty::TogglTeam::VERSION
   spec.authors       = ["kimromi"]
   spec.email         = ["kimromi4@gmail.com"]
 
-  spec.summary       = %q{multi user toggl operation for ruboty}
-  spec.description   = %q{multi user toggl operation for ruboty}
-  spec.homepage      = "https://github.com/kimromi/ruboty-toggl_multi"
+  spec.summary       = %q{toggl operation for team by ruboty}
+  spec.description   = %q{toggl operation for team by ruboty}
+  spec.homepage      = "https://github.com/kimromi/ruboty-toggl_team"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.

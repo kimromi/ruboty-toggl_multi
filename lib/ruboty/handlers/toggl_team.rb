@@ -1,8 +1,8 @@
-require 'ruboty/toggl_multi/actions/toggl_multi'
+require 'ruboty/toggl_team/actions/toggl_team'
 
 module Ruboty
   module Handlers
-    class TogglMulti < Base
+    class TogglTeam < Base
       on(
         /toggl set-token (?<token>.+)/,
         name: 'set_token',
@@ -48,7 +48,7 @@ module Ruboty
       private
 
       def action(message)
-        Ruboty::TogglMulti::Actions::TogglMulti.new(message)
+        Ruboty::TogglTeam::Actions::TogglTeam.new(message)
       end
     end
   end
