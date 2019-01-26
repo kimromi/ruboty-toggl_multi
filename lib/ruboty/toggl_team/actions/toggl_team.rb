@@ -6,7 +6,7 @@ module Ruboty
     module Actions
       class TogglTeam < Ruboty::Actions::Base
         BRAIN_KEY_TOKENS = 'toggl_team_tokens'.freeze
-        BRAIN_KEY_WORKSPACE = 'toggl_team_workspace'.freeze
+        BRAIN_KEY_WORKSPACES = 'toggl_team_workspaces'.freeze
 
         def set_token
           tokens = brain.data[BRAIN_KEY_TOKENS] || {}
@@ -17,7 +17,7 @@ module Ruboty
         end
 
         def set_workspace
-          unless user_tokens.key?(user)
+          unless user_token
             message.reply("please set #{user}'s toggl token!")
             return
           end
@@ -26,8 +26,10 @@ module Ruboty
           workspace = toggl.my_workspaces.find {|w| w['name'] == name }
 
           if workspace
-            brain.data[BRAIN_KEY_WORKSPACE] = workspace
-            message.reply("set #{name} workspace!")
+            workspaces = brain.data[BRAIN_KEY_WORKSPACES] || {}
+            workspaces[user] = workspace
+            brain.data[BRAIN_KEY_WORKSPACES] = workspaces
+            message.reply("set #{name} workspace to #{user}!")
           else
             message.reply("#{name} workspace not found!")
           end
@@ -36,19 +38,19 @@ module Ruboty
         end
 
         def start
-          if !user_tokens.key?(user) || !workspace_id
+          unless user_token && user_workspace
             message.reply("please set #{user}'s toggl token and workspace!") and return
           end
 
           project_name = message.match_data[:project_name].strip
           project = if project_name != ''
-            toggl.projects(workspace_id, active: true)&.find {|p| p['name'] =~ /#{project_name}/ }
+            toggl.projects(user_workspace['id'], active: true)&.find {|p| p['name'] =~ /#{project_name}/ }
           end
 
           task = message.match_data[:task].strip
           entry = toggl.start_time_entry({
             description: task,
-            wid: workspace_id,
+            wid: user_workspace['id'],
             pid: project ? project['id'] : nil
           }.stringify_keys)
 
@@ -58,7 +60,7 @@ module Ruboty
         end
 
         def stop
-          if !user_tokens.key?(user) || !workspace_id
+          unless user_token && user_workspace
             message.reply("please set #{user}'s toggl token and workspace!") and return
           end
 
@@ -78,28 +80,22 @@ module Ruboty
           message.robot.brain
         end
 
-        def user_tokens
-          brain.data[BRAIN_KEY_TOKENS] || {}
-        end
-
-        def workspace_id
-          if w = brain.data[BRAIN_KEY_WORKSPACE]
-            w['id']
-          else
-            nil
-          end
-        end
-
-        def user_current_tasks
-          brain.data[BRAIN_KEY_TOKENS] || {}
-        end
-
         def user
           message.from_name || 'test'
         end
 
+        def user_token
+          user_tokens = brain.data[BRAIN_KEY_TOKENS] || {}
+          user_tokens[user]
+        end
+
+        def user_workspace
+          user_workspaces = brain.data[BRAIN_KEY_WORKSPACES] || {}
+          user_workspaces[user]
+        end
+
         def toggl
-          TogglV8::API.new(user_tokens[user])
+          TogglV8::API.new(user_token)
         end
       end
     end
