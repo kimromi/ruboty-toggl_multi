@@ -37,6 +37,15 @@ module Ruboty
           message.reply("error! #{e}")
         end
 
+        def projects
+          unless user_token && user_workspace
+            message.reply("please set #{user}'s toggl token and workspace!") and return
+          end
+
+          projects =  toggl.projects(user_workspace['id'], active: true)
+          message.reply(projects.map {|p| p['name'] }.join("\n"))
+        end
+
         def start
           unless user_token && user_workspace
             message.reply("please set #{user}'s toggl token and workspace!") and return
