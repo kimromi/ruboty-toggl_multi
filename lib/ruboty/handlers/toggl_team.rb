@@ -36,6 +36,13 @@ module Ruboty
         all: true
       )
 
+      on(
+        /^today$/,
+        name: 'today',
+        description: 'get today time report',
+        all: true
+      )
+
       def set_token(message)
         action(message).set_token
       end
@@ -54,6 +61,10 @@ module Ruboty
 
       def stop(message)
         action(message).stop
+      end
+
+      def today(message)
+        action(message).today
       end
 
       private

@@ -1,5 +1,6 @@
 require 'togglv8'
 require 'active_support/core_ext/hash/keys'
+require 'active_support/core_ext/time/calculations'
 
 module Ruboty
   module TogglTeam
@@ -82,6 +83,25 @@ module Ruboty
           end
         rescue => e
           message.reply("error! #{e}")
+        end
+
+        def today
+          unless user_token && user_workspace
+            message.reply("please set #{user}'s toggl token and workspace!") and return
+          end
+
+          entries = toggl.get_time_entries(
+            start_date: DateTime.parse(Time.now.beginning_of_day.to_s),
+            end_date: DateTime.parse(Time.now.end_of_day.to_s)
+          )
+
+          report = entries.map do |e|
+            start_at = Time.parse(e['start']).localtime.strftime('%R')
+            end_at = Time.parse(e['stop']).localtime.strftime('%R')
+            "#{start_at}-#{end_at} : #{e['description']}"
+          end.join("\n")
+
+          message.reply(report)
         end
 
         private
