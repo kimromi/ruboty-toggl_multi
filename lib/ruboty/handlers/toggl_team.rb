@@ -16,6 +16,13 @@ module Ruboty
       )
 
       on(
+        /^projects$/,
+        name: 'projects',
+        description: 'get projects',
+        all: true
+      )
+
+      on(
         /^start (?<task>\S+)(?<project_name>.*)/,
         name: 'start',
         description: 'start toggl task',
@@ -35,6 +42,10 @@ module Ruboty
 
       def set_workspace(message)
         action(message).set_workspace
+      end
+
+      def projects(message)
+        action(message).projects
       end
 
       def start(message)
