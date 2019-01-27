@@ -24,6 +24,11 @@ Set workspace(name).
 ruboty toggl set-workspace <workspace-name>
 ```
 
+### Get project names
+
+```
+projects
+```
 ### Start task
 
 ```
